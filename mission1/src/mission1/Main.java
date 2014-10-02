@@ -38,6 +38,7 @@ public class Main {
 			System.out.println("Veuillez saisir le path vers le fichier :");
 			String fileName = sc.nextLine();
 			System.out.println("Vous avez saisi : " + fileName);
+			sc.close();
 
 			InputStream ips = new FileInputStream(fileName);
 			InputStreamReader ipsr = new InputStreamReader(ips);
@@ -51,7 +52,6 @@ public class Main {
 						double a = Double.parseDouble(str[i]);
 						StackingObject obj = new StackingObject(a);
 						pile.push(obj);
-						System.out.println("Coucou");
 					} catch (NumberFormatException e) {
 						/*if (str[i].charAt(0) == '/') { // il faut alors faire
 														// une definition
@@ -66,8 +66,7 @@ public class Main {
 																		// imprime
 																		// la
 																		// pile.
-							pile.toString();
-							System.out.println("OK");
+							System.out.println(pile.toString());
 						} else if (str[i].compareTo("mul") == 0) {
 							try {
 								mul(pile);
@@ -116,10 +115,21 @@ public class Main {
 							} catch (Exception e1) {
 								System.out.println(e1);
 							}
+						else if (str[i].equalsIgnoreCase("true")) {
+							boolean val = true;
+							StackingObject obj = new StackingObject(val);
+							pile.push(obj);
+							
+						}
+						else if (str[i].equalsIgnoreCase("false")) {
+							boolean val = false;
+							StackingObject obj = new StackingObject(val);
+							pile.push(obj);
+						}
 						/*else { // Definition deja faite ou bug;
 							try {
 								double a = Constante.searchNumb(str[i]);
-								*StackingObject obj = new StackingObject(a);
+								StackingObject obj = new StackingObject(a);
 								pile.push(obj);
 							} catch (Exception e1) {
 								System.out.println(e1);
@@ -144,12 +154,12 @@ public class Main {
 	public static void div(Stack<StackingObject>pile) {
 		double a;
 		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
+			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double c = a / b;
@@ -167,12 +177,12 @@ public class Main {
 	public static void mul(Stack<StackingObject>pile) {
 		double a;
 		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
+			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double c = a * b;
@@ -190,12 +200,12 @@ public class Main {
 	public static void add(Stack<StackingObject>pile) {
 		double a;
 		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
+			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double c = a + b;
@@ -213,12 +223,12 @@ public class Main {
 	public static void sub(Stack<StackingObject>pile) {
 		double a;
 		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
+			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double c = a / b;
@@ -234,7 +244,7 @@ public class Main {
 	 */
 	public static void dup(Stack<StackingObject>pile) {
 		if (pile.peek().isDouble()) {
-			double a = (double) pile.pop().getDouble();
+			double a = pile.pop().getDouble();
 			StackingObject obj = new StackingObject(a);
 			pile.push(obj);
 			pile.push(obj);
@@ -250,12 +260,12 @@ public class Main {
 	public static void exch(Stack<StackingObject>pile) {
 		double a;
 		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
+			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		StackingObject obj1 = new StackingObject(a);
@@ -272,17 +282,34 @@ public class Main {
 	 * un boolean : - true si ils sont egaux - false sinon
 	 */
 	public static void eq(Stack<StackingObject>pile) {
+		boolean c;
 		double a;
-		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		boolean bool1;
+		boolean isBool;
+		if (pile.peek().isDouble()) {
+			a = pile.pop().getDouble();
+			isBool = false;
+		}	
+		else {
+			bool1 = pile.pop().getBoolean();
+			isBool = true;
+		}
 		double b;
+		boolean bool2;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			if (!isBool) {	
+				b = pile.pop().getDouble();
+				c = a==b;
+			}	
+			else 
+				throw new NumberFormatException();
 		else
-			throw new NumberFormatException();
-		boolean c = a == b;
+			if (isBool) {
+				bool2 = pile.pop().getBoolean();
+				c= bool1 == bool2;
+			}
+			else 
+				throw new NumberFormatException();
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
 	}
@@ -297,12 +324,12 @@ public class Main {
 	public static void ne(Stack<StackingObject>pile) {
 		double a;
 		if (pile.peek().isDouble())
-			a = (double) pile.pop().getDouble();
+			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
 		if (pile.peek().isDouble())
-			b = (double) pile.pop().getDouble();
+			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		boolean c = (a != b);
