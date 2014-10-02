@@ -1,9 +1,5 @@
 package mission1;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -44,13 +40,10 @@ public class Main {
 			System.out.println("Vous avez saisi : " + fileName);
 			sc.close();
 
-			InputStream ips = new FileInputStream(fileName);
-			InputStreamReader ipsr = new InputStreamReader(ips);
-			BufferedReader br = new BufferedReader(ipsr);
-			String ligne;
+			IO.openReader(fileName);
+			String str[];
 
-			while ((ligne = br.readLine()) != null) {
-				String str[] = ligne.split(" ");
+			while ((str = IO.readInstruction()) != null) {
 				for (int i = 0; i < str.length; i++) {
 					try {
 						double a = Double.parseDouble(str[i]);
@@ -142,7 +135,7 @@ public class Main {
 					}
 				}
 			}
-			br.close();
+			IO.closeReader();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
