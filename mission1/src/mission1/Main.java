@@ -238,6 +238,12 @@ public class Main {
 			pile.push(obj);
 			pile.push(obj);
 		}
+		else {
+			boolean b = pile.pop().getBoolean();
+			StackingObject obj = new StackingObject(b);
+			pile.push(obj);
+			pile.push(obj);
+		}
 	}
 
 	/*
@@ -247,18 +253,45 @@ public class Main {
 	 * @post : l'ordre des deux premiers elements de la pile 'pile' est inverse.
 	 */
 	public static void exch(NodeStack<StackingObject>pile) {
-		double a;
-		if (pile.top().isDouble())
+		double a = 0;
+		boolean bool1 = false;
+		boolean isBool1;
+		if (pile.top().isDouble()) {
 			a = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
-		double b;
-		if (pile.top().isDouble())
+			isBool1 = false;
+		}
+		else {
+			bool1 = pile.pop().getBoolean();
+			isBool1 = true;
+		}
+		
+		double b = 0;
+		boolean bool2 = false;
+		boolean isBool2;
+		if (pile.top().isDouble()) {
 			b = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
-		StackingObject obj1 = new StackingObject(a);
-		StackingObject obj2 = new StackingObject(b);
+			isBool2 = false;
+		}
+		else {
+			bool2 = pile;pop().getBoolean();
+			isBool2 = true;
+		}
+		
+		StackingObject obj1;
+		StackingObject obj2;
+		
+		if (isBool1) {
+			obj1 = new StackingObject(bool1);
+		}
+		else {
+			obj1 = new StackingObject(a);
+		}
+		if (isBool2) {
+			obj2 = new StackingObject(bool2);
+		}
+		else {
+			obj2 = new StackingObject(b);
+		}
 		pile.push(obj1);
 		pile.push(obj2);
 	}
@@ -341,4 +374,5 @@ public class Main {
 				throw new NumberFormatException();
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
+	}
 }
