@@ -51,11 +51,14 @@ public class NodeStack<E> implements Stack<E>{
 	 */
 	public String toString(){
 		String result = "[ "+top.getElement()+" ";
-		Node<E> current = top.getNext(); 
-		for(int i = 0 ; i < size ; i++){
-			result = result+current.getElement()+" ";
-			current = current.getNext();
-		}
+		if(top.getNext() != null){
+			Node<E> current = top.getNext();
+			for(int i = 0 ; i < size ; i++){
+				result = result+current.getElement()+" ";
+				if(current.getNext() != null)
+					current = current.getNext();
+			}
+		} 
 		result = result+"]";
 		return result;
 	}
