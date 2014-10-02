@@ -35,14 +35,19 @@ public class Main {
 	// lecture du fichier texte
 		try {
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Veuillez saisir le path vers le fichier :");
+			System.out.println("Veuillez saisir le path vers le fichier à lire:");
 			String fileName = sc.nextLine();
-			System.out.println("Vous avez saisi : " + fileName);
-			sc.close();
-
+			System.out.println("Vous avez saisi : " + fileName + "\n");
 			IO.openReader(fileName);
+			
+			System.out.println("Veuillez saisir le path vers le fichier à écrire:");
+			fileName = sc.nextLine();
+			System.out.println("Vous avez saisi : " + fileName);
+			IO.openWriter(fileName);
+			
 			String str[];
 			int nl = 1;
+			sc.close();
 
 			while ((str = IO.readInstruction()) != null) {
 				for (int i = 0; i < str.length; i++) {
@@ -63,8 +68,8 @@ public class Main {
 						} else if (str[i].equalsIgnoreCase("pstack")) { // on
 																		// imprime
 																		// la
-																		// pile.
-							System.out.println(pile.toString());
+							writeResult(pile.toString());												// pile.
+						//	System.out.println(pile.toString());
 						} else if (str[i].equalsIgnoreCase("mul")) {
 							try {
 								mul(pile);
@@ -137,6 +142,7 @@ public class Main {
 				}
 			nl++;
 			}
+			IO.closeWriter();
 			IO.closeReader();
 		} catch (Exception e) {
 			System.out.println(e.toString());
