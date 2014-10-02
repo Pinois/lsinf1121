@@ -42,6 +42,7 @@ public class Main {
 
 			IO.openReader(fileName);
 			String str[];
+			int nl = 1;
 
 			while ((str = IO.readInstruction()) != null) {
 				for (int i = 0; i < str.length; i++) {
@@ -57,60 +58,60 @@ public class Main {
 																// constante.
 							i++;
 						}*/
-						if (str[i].compareTo("pop") == 0) {
+						if (str[i].equalsIgnoreCase("pop")) {
 							pile.pop();
-						} else if (str[i].compareTo("pstack") == 0) { // on
+						} else if (str[i].equalsIgnoreCase("pstack")) { // on
 																		// imprime
 																		// la
 																		// pile.
 							System.out.println(pile.toString());
-						} else if (str[i].compareTo("mul") == 0) {
+						} else if (str[i].equalsIgnoreCase("mul")) {
 							try {
 								mul(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						} else if (str[i].compareTo("add") == 0) {
+						} else if (str[i].equalsIgnoreCase("add")) {
 							try {
 								add(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						} else if (str[i].compareTo("sub") == 0)
+						} else if (str[i].equalsIgnoreCase("sub"))
 							try {
 								sub(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						else if (str[i].compareTo("div") == 0)
+						else if (str[i].equalsIgnoreCase("div"))
 							try {
 								div(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						else if (str[i].compareTo("dup") == 0)
+						else if (str[i].equalsIgnoreCase("dup"))
 							try {
 								dup(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						else if (str[i].compareTo("exch") == 0)
+						else if (str[i].equalsIgnoreCase("exch"))
 							try {
 								exch(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						else if (str[i].compareTo("eq") == 0)
+						else if (str[i].equalsIgnoreCase("eq"))
 							try {
 								eq(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
-						else if (str[i].compareTo("ne") == 0)
+						else if (str[i].equalsIgnoreCase("ne"))
 							try {
 								ne(pile);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("true")) {
 							boolean val = true;
@@ -129,11 +130,12 @@ public class Main {
 								StackingObject obj = new StackingObject(a);
 								pile.push(obj);
 							} catch (Exception e1) {
-								System.out.println(e1);
+								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
 							}
 						}*/
 					}
 				}
+			nl++;
 			}
 			IO.closeReader();
 		} catch (Exception e) {
