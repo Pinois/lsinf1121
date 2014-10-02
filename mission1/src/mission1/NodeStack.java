@@ -46,6 +46,21 @@ public class NodeStack<E> implements Stack<E>{
     }
     
     /**
+	 * pre : -
+	 * post : renvoie un string contenant les élément de la pile. La pile est inchangée
+	 */
+	public String toString(){
+		String result = "[ "+top.getElement()+" ";
+		Node<E> current = top.getNext(); 
+		for(int i = 0 ; i < size ; i++){
+			result = result+current.getElement()+" ";
+			current = current.getNext();
+		}
+		result = result+"]";
+		return result;
+	}
+    
+    /**
      * Classe du noeud
      */
     private class Node<E>{
