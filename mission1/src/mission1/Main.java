@@ -287,8 +287,8 @@ public class Main {
 	 */
 	public static void eq(Stack<StackingObject>pile) {
 		boolean c;
-		double a;
-		boolean bool1;
+		double a = 0;
+		boolean bool1 = false;
 		boolean isBool;
 		if (pile.peek().isDouble()) {
 			a = pile.pop().getDouble();

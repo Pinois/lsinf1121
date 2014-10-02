@@ -1,3 +1,5 @@
+package mission1;
+
 /* 
  * StackingObject is an object containing a string character "false" or "true"
  * or a double
