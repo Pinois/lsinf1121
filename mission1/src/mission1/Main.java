@@ -69,49 +69,49 @@ public class Main {
 							try {
 								mul(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						} else if (str[i].equalsIgnoreCase("add")) {
 							try {
 								add(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						} else if (str[i].equalsIgnoreCase("sub"))
 							try {
 								sub(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("div"))
 							try {
 								div(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("dup"))
 							try {
 								dup(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("exch"))
 							try {
 								exch(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("eq"))
 							try {
 								eq(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("ne"))
 							try {
 								ne(pile);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						else if (str[i].equalsIgnoreCase("true")) {
 							boolean val = true;
@@ -130,7 +130,7 @@ public class Main {
 								StackingObject obj = new StackingObject(a);
 								pile.push(obj);
 							} catch (Exception e1) {
-								System.out.println("erreur à la ligne n°" + nl + "\n" + e1);
+								System.out.println("erreur ï¿½ la ligne nï¿½" + nl + "\n" + e1);
 							}
 						}*/
 					}
@@ -152,12 +152,12 @@ public class Main {
 	 */
 	public static void div(Stack<StackingObject>pile) {
 		double a;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
@@ -175,12 +175,12 @@ public class Main {
 	 */
 	public static void mul(Stack<StackingObject>pile) {
 		double a;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
@@ -198,12 +198,12 @@ public class Main {
 	 */
 	public static void add(Stack<StackingObject>pile) {
 		double a;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
@@ -221,12 +221,12 @@ public class Main {
 	 */
 	public static void sub(Stack<StackingObject>pile) {
 		double a;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
@@ -242,7 +242,7 @@ public class Main {
 	 * @post : le premier element de la pile est dedouble au sommet de la pile.
 	 */
 	public static void dup(Stack<StackingObject>pile) {
-		if (pile.peek().isDouble()) {
+		if (pile.top().isDouble()) {
 			double a = pile.pop().getDouble();
 			StackingObject obj = new StackingObject(a);
 			pile.push(obj);
@@ -258,12 +258,12 @@ public class Main {
 	 */
 	public static void exch(Stack<StackingObject>pile) {
 		double a;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			a = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
 		double b;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			b = pile.pop().getDouble();
 		else
 			throw new NumberFormatException();
@@ -285,7 +285,7 @@ public class Main {
 		double a = 0;
 		boolean bool1 = false;
 		boolean isBool;
-		if (pile.peek().isDouble()) {
+		if (pile.top().isDouble()) {
 			a = pile.pop().getDouble();
 			isBool = false;
 		}	
@@ -295,7 +295,7 @@ public class Main {
 		}
 		double b;
 		boolean bool2;
-		if (pile.peek().isDouble())
+		if (pile.top().isDouble())
 			if (!isBool) {	
 				b = pile.pop().getDouble();
 				c = a==b;
@@ -321,19 +321,34 @@ public class Main {
 	 * un boolean : - false si ils sont egaux - true sinon
 	 */
 	public static void ne(Stack<StackingObject>pile) {
-		double a;
-		if (pile.peek().isDouble())
+		boolean c;
+		double a = 0;
+		boolean bool1 = false;
+		boolean isBool;
+		if (pile.top().isDouble()) {
 			a = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+			isBool = false;
+		}	
+		else {
+			bool1 = pile.pop().getBoolean();
+			isBool = true;
+		}
 		double b;
-		if (pile.peek().isDouble())
-			b = pile.pop().getDouble();
+		boolean bool2;
+		if (pile.top().isDouble())
+			if (!isBool) {	
+				b = pile.pop().getDouble();
+				c = a!=b;
+			}	
+			else 
+				throw new NumberFormatException();
 		else
-			throw new NumberFormatException();
-		boolean c = (a != b);
+			if (isBool) {
+				bool2 = pile.pop().getBoolean();
+				c= bool1 != bool2;
+			}
+			else 
+				throw new NumberFormatException();
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
-	}
-
 }
