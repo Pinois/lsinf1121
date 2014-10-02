@@ -1,7 +1,7 @@
 package mission1;
 
 import java.util.Scanner;
-import java.util.Stack;
+import java.util.EmptyStackException;
 
 
 
@@ -30,7 +30,7 @@ public class Main {
 	 * cree les objects Constant au besoin.
 	 */
 	public static void main(String[] args) {
-		Stack<StackingObject> pile = new Stack<StackingObject>(); // Pile ou on va
+		NodeStack<StackingObject> pile = new NodeStack<StackingObject>(); // Pile ou on va
 																// empiler les
 	// lecture du fichier texte
 		try {
@@ -142,6 +142,19 @@ public class Main {
 			System.out.println(e.toString());
 		}
 	}
+	
+	/*
+	 * @pre le premier element de la pile 'pile' est un double
+	 * Sinon une erreur est lancee
+	 * 
+	 * @post renvoie le premier element de la pile si c est un double
+	 */
+	public static double getDoubleTop(NodeStack<StackingObject>pile){
+		if (pile.top().isDouble())
+			return pile.pop().getDouble();
+		else
+			throw new NumberFormatException();
+	}
 
 	/*
 	 * @pre : les deux premiers elements de la pile 'pile' sont deux doubles.
@@ -150,21 +163,16 @@ public class Main {
 	 * @post : les deux elements de la pile 'pile' sont remplaces par un element
 	 * qui vaut leur quotient (premier sur le second).
 	 */
-	public static void div(Stack<StackingObject>pile) {
+	public static void div(NodeStack<StackingObject>pile) {
 		double a;
-		if (pile.top().isDouble())
-			a = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		a = getDoubleTop(pile);
 		double b;
-		if (pile.top().isDouble())
-			b = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		b=getDoubleTop(pile);
 		double c = a / b;
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
 	}
+
 
 	/*
 	 * @pre : les deux premiers elements de la pile 'pile' sont deux doubles.
@@ -173,17 +181,11 @@ public class Main {
 	 * @post : les deux elements de la pile 'pile' sont remplaces par un element
 	 * qui vaut leur produit.
 	 */
-	public static void mul(Stack<StackingObject>pile) {
+	public static void mul(NodeStack<StackingObject>pile) {
 		double a;
-		if (pile.top().isDouble())
-			a = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		a=getDoubleTop(pile);
 		double b;
-		if (pile.top().isDouble())
-			b = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		b=getDoubleTop(pile);
 		double c = a * b;
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
@@ -196,17 +198,11 @@ public class Main {
 	 * @post : les deux elements de la pile 'pile' sont remplaces par un element
 	 * qui vaut leur somme.
 	 */
-	public static void add(Stack<StackingObject>pile) {
+	public static void add(NodeStack<StackingObject>pile) {
 		double a;
-		if (pile.top().isDouble())
-			a = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		a=getDoubleTop(pile);
 		double b;
-		if (pile.top().isDouble())
-			b = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		b=getDoubleTop(pile);
 		double c = a + b;
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
@@ -219,17 +215,11 @@ public class Main {
 	 * @post : les deux elements de la pile 'pile' sont remplaces par un element
 	 * qui vaut leur dividende(??).
 	 */
-	public static void sub(Stack<StackingObject>pile) {
+	public static void sub(NodeStack<StackingObject>pile) {
 		double a;
-		if (pile.top().isDouble())
-			a = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		a=getDoubleTop(pile);
 		double b;
-		if (pile.top().isDouble())
-			b = pile.pop().getDouble();
-		else
-			throw new NumberFormatException();
+		b=getDoubleTop(pile);
 		double c = a / b;
 		StackingObject obj = new StackingObject(c);
 		pile.push(obj);
@@ -241,7 +231,7 @@ public class Main {
 	 * 
 	 * @post : le premier element de la pile est dedouble au sommet de la pile.
 	 */
-	public static void dup(Stack<StackingObject>pile) {
+	public static void dup(NodeStack<StackingObject>pile) {
 		if (pile.top().isDouble()) {
 			double a = pile.pop().getDouble();
 			StackingObject obj = new StackingObject(a);
@@ -256,7 +246,7 @@ public class Main {
 	 * 
 	 * @post : l'ordre des deux premiers elements de la pile 'pile' est inverse.
 	 */
-	public static void exch(Stack<StackingObject>pile) {
+	public static void exch(NodeStack<StackingObject>pile) {
 		double a;
 		if (pile.top().isDouble())
 			a = pile.pop().getDouble();
@@ -280,7 +270,7 @@ public class Main {
 	 * @post : les deux premiers elements de la pile 'pile' sont remplaces par
 	 * un boolean : - true si ils sont egaux - false sinon
 	 */
-	public static void eq(Stack<StackingObject>pile) {
+	public static void eq(NodeStack<StackingObject>pile) {
 		boolean c;
 		double a = 0;
 		boolean bool1 = false;
@@ -320,7 +310,7 @@ public class Main {
 	 * @post : les deux premiers elements de la pile 'pile' sont remplaces par
 	 * un boolean : - false si ils sont egaux - true sinon
 	 */
-	public static void ne(Stack<StackingObject>pile) {
+	public static void ne(NodeStack<StackingObject>pile) {
 		boolean c;
 		double a = 0;
 		boolean bool1 = false;
