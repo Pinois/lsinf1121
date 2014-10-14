@@ -68,7 +68,8 @@ public class Main {
 						} else if (str[i].equalsIgnoreCase("pstack")) { // on
 																		// imprime
 																		// la
-							writeResult(pile.toString());												// pile.
+							//TODO
+							//IO.writeResult(pile.toString());												// pile.
 						//	System.out.println(pile.toString());
 						} else if (str[i].equalsIgnoreCase("mul")) {
 							try {
@@ -279,7 +280,8 @@ public class Main {
 			isBool2 = false;
 		}
 		else {
-			bool2 = pile;pop().getBoolean();
+			//TODO
+			//bool2 = pile;pop().getBoolean();
 			isBool2 = true;
 		}
 		
