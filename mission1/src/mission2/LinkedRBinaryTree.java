@@ -1,7 +1,9 @@
 package mission2;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * Implementation des arbres d'expression sous forme de structure
@@ -10,15 +12,20 @@ import java.util.Iterator;
  * @author Ludovic Fastré
  */
 public class LinkedRBinaryTree<E> implements RBinaryTree<E>, FormalExpressionTree {
-	
+
 	/** Racine de l'arbre, contient un element de type E*/
 	private Position<E> root;
-	
+
 	/**Sous arbre de gauche*/
 	private LinkedRBinaryTree<?> leftChild;
-	
+
 	/**Sous arbre de droite*/
 	private LinkedRBinaryTree<?> rightChild;
+
+	// initialisation des piles
+	private Stack<LinkedRBinaryTree<?>> opStack=new Stack<LinkedRBinaryTree<?>>();
+	private Stack<LinkedRBinaryTree<?>> valueStack = new Stack<LinkedRBinaryTree<?>>();
+	private int negative = 0;
 
 	/**
 	 * Constructeur initialisant toutes les variables d'instance a null
@@ -47,6 +54,143 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E>, FormalExpressionTre
 		this.root=root;
 		this.leftChild=null;
 		this.rightChild=null;
+	}
+
+	/**
+	 * @return 
+	 * @pre s est non nul et non vide
+	 * @post renvoie l'expression passe en argument sous forme d'arbre
+	 * 
+	 * @throws EmptyStackException illegalite de l'expression
+	 * @throws IllegalInputException illegalite de l'expression
+	 */
+	public LinkedRBinaryTree(String s) throws EmptyStackException, IllegalInputException{
+
+		// caractère courant
+		char current;
+
+		// Condition de boucle
+		boolean loop=true;
+
+		for(int i=0;i<s.length() && loop;i++){
+			current=s.charAt(i);
+
+			// Operateurs arithmetiques
+			if(current=='+' || current=='-' || current=='*' || current=='/' || current=='^'){
+				opStack.push(new LinkedRBinaryTree<Character>(new Node<Character>(current)));
+			}
+			else if(current=='s' || current=='c'){ // sin ou cos
+				String r=s.substring(i,i+3);
+				if(r.equals("cos")){ // cosinus
+					opStack.push(new LinkedRBinaryTree<String>(new Node<String>("cos")));
+				}
+				else if(r.equals("sin")){ // sinus
+					opStack.push(new LinkedRBinaryTree<String>(new Node<String>("sin")));
+				}
+				else{ // chaine commancant par c ou s mais illegale
+					throw new IllegalInputException("Operateur inconnu commencant par "+current);
+				}
+				i=i+2;
+			}
+			else if(current=='x'){ // variable analytique
+				valueStack.push(new LinkedRBinaryTree<Character>(new Node<Character>('x')));
+			}
+			else if(Character.isDigit(current)){ // nombre
+				i=parseInt(s,i);
+				if(i<0){
+					loop=false;
+				}
+			}
+			else if(current=='('){
+				/* On ne fait rien dans le cas de la parenthese entrante*/
+			}
+			else if(current==')'){ // parenthese fermante
+				compute();
+			}
+			else if(current=='~'){ // signe de negation (different de '-')
+				negative++;
+			}
+			else{
+				throw new IllegalInputException("Caractere illegal");
+			}
+		}
+
+		// vérification sur les piles
+		boolean valid=valueStack.size()==1 && opStack.size()==0;
+		if(!valid){
+			throw new IllegalInputException("Cette chaine n'a pas pu etre transformee en arbre");
+		}
+
+		LinkedRBinaryTree<?> parsedTree = valueStack.pop();
+		this.root=(Position<E>) parsedTree.root();
+		this.leftChild=parsedTree.leftTree();
+		this.rightChild=parsedTree.rightTree();
+	}
+
+	/**
+	 * @pre s!=null && i>=0 && i<s.length()
+	 * @post place l'entier en tete de s dans la pile des valeurs et
+	 *       renvoie le nouvel indice de lecture sur le caractere qui
+	 * 		 est sur le dernier chiffre 
+	 * 		(ou -1 si c'est la fin de la chaine)
+	 */
+	private int parseInt(String s,int i){
+		String sub=s.substring(i);
+		char current=sub.charAt(0);
+		String num=String.valueOf(current);
+
+		/* on parcourt la sous-chaine jusqu'a sortir de celle-ci ou de
+		   l'entier, lequel des 2 se produit en premier*/
+		int j=1;
+		for(j=1;j<sub.length() && Character.isDigit(current);){
+			current=sub.charAt(j);
+			if(Character.isDigit(current)){
+				num=num+current;
+				j++;
+			}
+		}
+
+		// fin de la chaine ?
+		boolean end=(j>=sub.length());
+
+		// On ajoute l'entier a la pile en simplifiant les signes moins
+		int a=Integer.parseInt(num);
+		if(negative%2!=0){
+			valueStack.push(new LinkedRBinaryTree<Integer>(new Node<Integer>(-a)));
+		}
+		else{
+			valueStack.push(new LinkedRBinaryTree<Integer>(new Node<Integer>(a)));
+		}
+		negative=0;
+
+		if(end){
+			return -1;
+		}
+		else{
+			return i+j-1;
+		}
+	}
+
+	/**
+	 * Attache un operateur a son ou ses operandes
+	 * @throws EmptyStackException si une requete pop a ete faite sur une pile vide
+	 */
+	private void compute() throws EmptyStackException{
+		LinkedRBinaryTree<?> op=opStack.pop();
+		LinkedRBinaryTree<?> right=valueStack.pop();
+		LinkedRBinaryTree<?> left=null;
+
+		// Ni cos, ni sin
+		if(!(op.root().element().equals("sin") || op.root().element().equals("cos"))){
+			left=valueStack.pop();
+			op.setLeft(left);
+			op.setRight(right);
+		}
+		else{ // sin ou cos
+			op.setLeft(right);
+		}
+
+		valueStack.push(op);
 	}
 
 	public boolean isEmpty() {
@@ -165,7 +309,7 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E>, FormalExpressionTre
 		LinkedRBinaryTree right=new LinkedRBinaryTree<Character>(new Node<Character>('*'),leftTree(),rightTree().derive());
 		return new LinkedRBinaryTree<Character>(new Node<Character>('+'),left,right);
 	}
-	
+
 	/**
 	 * @pre this est un arbre de soustraction
 	 * @post renvoie un arbre qui est la derivee de this
@@ -203,13 +347,12 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E>, FormalExpressionTre
 	 */
 	private LinkedRBinaryTree<?> deriveExp(){
 		assert leftTree()!=null && rightTree()!=null;
-		assert rightTree().root().element() instanceof Integer;
 		int exp=(Integer)rightTree().root().element();
 		LinkedRBinaryTree<Character> e=new LinkedRBinaryTree<Character>(new Node<Character>('^'),leftTree(),new LinkedRBinaryTree<Integer>(new Node<Integer>(exp-1)));
 		LinkedRBinaryTree<Character> sub=new LinkedRBinaryTree<Character>(new Node<Character>('*'),rightTree(),e);
 		return new LinkedRBinaryTree<Character>(new Node<Character>('*'),sub,leftTree().derive());
 	}
-	
+
 	/**
 	 * @pre this est un arbre de sinus
 	 * @post renvoie un arbre qui est la derivee de this
@@ -231,20 +374,20 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E>, FormalExpressionTre
 		LinkedRBinaryTree<Character> prime=new LinkedRBinaryTree<Character>(new Node<Character>('*'),minus,leftTree().derive());
 		return new LinkedRBinaryTree<Character>(new Node<Character>('*'),prime,s);
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post this est inchangé
 	 */
-    public String toString(){
-       if(isLeaf()){
-		   return root.element().toString();
-	   }
-	   else if(rightTree()==null){ // sin ou cos
-		   return root.element()+"("+leftTree().toString()+")";
-	   }
-	   else{ // autres operateurs (+ - * / ^)
-		   return "("+leftTree().toString()+root.element()+rightTree().toString()+")";
-	   }
-    }
+	public String toString(){
+		if(isLeaf()){
+			return root.element().toString();
+		}
+		else if(rightTree()==null){ // sin ou cos
+			return root.element()+"("+leftTree().toString()+")";
+		}
+		else{ // autres operateurs (+ - * / ^)
+			return "("+leftTree().toString()+root.element()+rightTree().toString()+")";
+		}
+	}
 }
