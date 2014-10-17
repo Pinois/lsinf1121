@@ -5,6 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileReader;
 
+/**
+ * 
+ * @author Ludovic Fastré
+ *
+ */
 public class IO {
         
         /**

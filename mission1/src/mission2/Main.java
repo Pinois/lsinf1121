@@ -3,6 +3,11 @@ package mission2;
 import java.io.IOException;
 import java.util.EmptyStackException;
 
+/**
+ * 
+ * @author Ludovic Fastré
+ *
+ */
 public class Main {
 	public static void main(String[]args) throws Exception{
 

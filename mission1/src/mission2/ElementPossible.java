@@ -2,7 +2,11 @@ package mission2;
 
 import java.util.Arrays;
 
-
+/**
+ * 
+ * @author Marinx Denis
+ *
+ */
 public class ElementPossible {
 	public static final String[] fonctions = {"^", "sin", "cos"};
 	public static final String[] operateursArithmetiques = {"+", "-", "*", "/"};

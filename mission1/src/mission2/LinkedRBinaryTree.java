@@ -57,12 +57,7 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E>, FormalExpressionTre
 	}
 
 	/**
-	 * @return 
-	 * @pre s est non nul et non vide
-	 * @post renvoie l'expression passe en argument sous forme d'arbre
-	 * 
-	 * @throws EmptyStackException illegalite de l'expression
-	 * @throws IllegalInputException illegalite de l'expression
+	 * Constructeur qui crée un arbre à partir d'un string
 	 */
 	public LinkedRBinaryTree(String s) throws EmptyStackException, IllegalInputException{
 

@@ -1,5 +1,10 @@
 package mission2;
 
+/**
+ * 
+ * @author Ludovic Fastré
+ *
+ */
 public class IllegalInputException extends Exception{
 	
 	public IllegalInputException(){
