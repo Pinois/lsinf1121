@@ -24,15 +24,6 @@ public class ElementPossible {
 		else type = NONREPERTORIE;
 	}
 	
-	public static void main(String[] args) {
-		ElementPossible e1 = new ElementPossible("3");
-		ElementPossible e2 = new ElementPossible("sin");
-		ElementPossible e3 = new ElementPossible("y");
-		System.out.println(e1.getType());
-		System.out.println(e2.getType());
-		System.out.println(e3.getType());
-	}
-	
 	/**
 	 * v�rifie si le token est un integer ou non
 	 * @param token
@@ -53,6 +44,10 @@ public class ElementPossible {
 	}
 
 	public String getValue() {
+		return value;
+	}
+	
+	public String toString(){
 		return value;
 	}
 }
