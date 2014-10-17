@@ -1,3 +1,5 @@
+package mission2;
+
 import java.util.Arrays;
 
 
@@ -32,9 +34,9 @@ public class ElementPossible {
 	}
 	
 	/**
-	 * vérifie si le token est un integer ou non
+	 * vï¿½rifie si le token est un integer ou non
 	 * @param token
-	 * 						le token à traiter
+	 * 						le token ï¿½ traiter
 	 * @return false si le token n'est pas un "integer"
 	 */
 	public boolean isInteger(String token){
